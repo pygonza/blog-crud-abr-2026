@@ -1,0 +1,13 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <h2>Lista de Articulos</h2>
+    <ul>
+        {% for publication in article_list %}
+            <li>
+                <h3>{{ publication.title }}</h3>
+                <p>{{ publication.content }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
