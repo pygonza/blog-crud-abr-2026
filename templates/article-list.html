@@ -5,8 +5,7 @@
     <ul>
         {% for publication in article_list %}
             <li>
-                <h3>{{ publication.title }}</h3>
-                <p>{{ publication.content }}</p>
+                <p><a href="{% url 'article-detail' publication.pk %}">{{ publication.title }}</a></p>
             </li>
         {% endfor %}
     </ul>
