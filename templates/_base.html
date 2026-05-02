@@ -11,6 +11,15 @@
     <header>
         <a href="{% url 'article-list' %}"><h1>Newspaper Lecheria</h1></a>
         <a href="{% url 'article-create' %}">Crear Articulo</a>
+        
+        {% if user.is_authenticated %}
+            <span>Bienvenido, {{ user.username }}</span>
+            <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        
+        {% else %}
+        <a href="{% url 'login' %}">Iniciar Sesión</a>
+        {% endif %}
+
     </header>
         {% block content %}
 
