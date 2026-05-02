@@ -2,17 +2,36 @@
 
 {% block title %}{{ article.title }} - Newspaper Lecheria{% endblock %}
 
+{% block hero %}
+<section class="hero" style="padding: 2rem 0;">
+    <div class="container">
+        <h1 style="font-size: 2.5rem;">📖 Artículo</h1>
+        <p>Sumérgete en esta fascinante historia</p>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
 <div class="content">
     <article class="article-detail">
-        <h2>{{ article.title }}</h2>
-        <div class="article-author">Por {{ article.author }}</div>
-        <div class="article-date">Publicado el {{ article.created_at|date:"d F Y" }}</div>
-        <div class="article-content">{{ article.content|linebreaks }}</div>
+        <header class="article-detail-header">
+            <h1>{{ article.title }}</h1>
+            <div class="article-author">
+                ✍️ Escrito por <strong>{{ article.author }}</strong>
+            </div>
+            <div class="article-date">
+                📅 Publicado el {{ article.created_at|date:"l, d F Y" }} a las {{ article.created_at|date:"H:i" }}
+            </div>
+        </header>
+
+        <div class="article-content">
+            {{ article.content|linebreaks }}
+        </div>
+
         {% if user.is_authenticated and user == article.author %}
             <div class="article-actions">
-                <a href="{% url 'article-update' article.pk %}">Editar Artículo</a>
-                <a href="{% url 'article-delete' article.pk %}" class="danger">Eliminar Artículo</a>
+                <a href="{% url 'article-update' article.pk %}">✏️ Editar Artículo</a>
+                <a href="{% url 'article-delete' article.pk %}" class="danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este artículo?')">🗑️ Eliminar Artículo</a>
             </div>
         {% endif %}
     </article>

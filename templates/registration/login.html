@@ -2,22 +2,49 @@
 
 {% block title %}Iniciar Sesión - Newspaper Lecheria{% endblock %}
 
+{% block hero %}
+<section class="hero" style="padding: 2rem 0;">
+    <div class="container">
+        <h1 style="font-size: 2.5rem;">🔐 Iniciar Sesión</h1>
+        <p>Accede a tu cuenta para crear y gestionar artículos</p>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
-<div class="content">
-    <h2>Iniciar Sesión</h2>
+<div class="form-container" style="max-width: 400px;">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: #2d3748;">👋 Bienvenido de vuelta</h2>
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
             <div class="form-group">
-                {{ field.label_tag }}
+                <label for="{{ field.id_for_label }}">
+                    {% if field.label == 'Username' %}👤{% elif field.label == 'Password' %}🔒{% endif %}
+                    {{ field.label }}
+                </label>
                 {{ field }}
                 {% if field.errors %}
-                    <div class="error">{{ field.errors }}</div>
+                    <div style="color: #e53e3e; font-size: 0.9rem; margin-top: 0.5rem;">
+                        {{ field.errors }}
+                    </div>
                 {% endif %}
             </div>
         {% endfor %}
-        <button type="submit" class="btn">Iniciar Sesión</button>
+
+        {% if form.non_field_errors %}
+            <div style="color: #e53e3e; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn">🚀 Iniciar Sesión</button>
+        </div>
     </form>
-    <p class="mt-2">¿No tienes cuenta? <a href="{% url 'password_reset' %}">Recuperar contraseña</a></p>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+        <p style="color: #718096; margin-bottom: 1rem;">¿Olvidaste tu contraseña?</p>
+        <a href="{% url 'password_reset' %}" style="color: #667eea; text-decoration: none; font-weight: 500;">🔑 Recuperar contraseña</a>
+    </div>
 </div>
 {% endblock %}

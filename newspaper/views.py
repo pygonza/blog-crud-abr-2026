@@ -38,7 +38,7 @@ class ArticleDetailView(DetailView):
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     template_name = 'article-create.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'excerpt']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -47,7 +47,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     template_name = 'article-update.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'excerpt']
 
     def get_queryset(self):
         return super().get_queryset().filter(author=self.request.user)

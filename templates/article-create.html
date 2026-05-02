@@ -2,21 +2,38 @@
 
 {% block title %}Crear Nuevo Artículo - Newspaper Lecheria{% endblock %}
 
+{% block hero %}
+<section class="hero" style="padding: 2rem 0;">
+    <div class="container">
+        <h1 style="font-size: 2.5rem;">✍️ Crear Artículo</h1>
+        <p>Comparte tus ideas y conocimientos con nuestra comunidad</p>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
-<div class="content">
-    <h2>Crear Nuevo Artículo</h2>
+<div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: #2d3748;">📝 Nuevo Artículo</h2>
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
             <div class="form-group">
-                {{ field.label_tag }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
                 {% if field.errors %}
-                    <div class="error">{{ field.errors }}</div>
+                    <div style="color: #e53e3e; font-size: 0.9rem; margin-top: 0.5rem;">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+                {% if field.help_text %}
+                    <small style="color: #718096; font-size: 0.8rem;">{{ field.help_text }}</small>
                 {% endif %}
             </div>
         {% endfor %}
-        <button type="submit" class="btn">Crear Artículo</button>
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn">🚀 Publicar Artículo</button>
+            <a href="{% url 'article-list' %}" class="btn" style="margin-left: 1rem; background: #718096;">❌ Cancelar</a>
+        </div>
     </form>
 </div>
 {% endblock %}

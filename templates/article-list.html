@@ -2,51 +2,73 @@
 
 {% block title %}Lista de Artículos - Newspaper Lecheria{% endblock %}
 
-{% block content %}
-<div class="content">
-    <h2>Lista de Artículos</h2>
+{% block hero %}
+<section class="hero">
+    <div class="container">
+        <h1>📰 Newspaper Lecheria</h1>
+        <p>Tu fuente confiable de noticias locales y artículos de calidad. Mantente informado con el mejor periodismo de la región.</p>
+    </div>
+</section>
+{% endblock %}
 
-    <!-- Search form -->
-    <form method="get" class="search-form">
-        <div class="form-group">
-            <input type="text" name="q" value="{{ search_query }}" placeholder="Buscar artículos..." class="search-input">
+{% block content %}
+<!-- Search Section -->
+<section class="search-section">
+    <div class="container">
+        <form method="get" class="search-form">
+            <input type="text" name="q" value="{{ search_query }}" placeholder="🔍 Buscar artículos por título o contenido..." class="search-input">
             <button type="submit" class="btn">Buscar</button>
             {% if search_query %}
-                <a href="{% url 'article-list' %}" class="btn">Limpiar</a>
+                <a href="{% url 'article-list' %}" class="btn">🗑️ Limpiar</a>
             {% endif %}
-        </div>
-    </form>
+        </form>
+    </div>
+</section>
 
+<!-- Articles Grid -->
+<div class="content">
     {% if page_obj %}
-        <ul class="article-list">
+        <div class="article-grid">
             {% for article in page_obj %}
-                <li>
-                    <a href="{% url 'article-detail' article.pk %}">{{ article.title }}</a>
-                    <div class="article-meta">
-                        Por {{ article.author }} | {{ article.created_at|date:"d M Y" }}
+                <div class="article-card">
+                    <div class="article-card-content">
+                        <h3><a href="{% url 'article-detail' article.pk %}">{{ article.title }}</a></h3>
+                        <div class="article-meta">
+                            {{ article.author }} • {{ article.created_at|date:"d M Y" }}
+                        </div>
+                        <div class="article-excerpt">
+                            {{ article.get_excerpt }}
+                        </div>
+                        <a href="{% url 'article-detail' article.pk %}" class="article-read-more">Leer más</a>
                     </div>
-                </li>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
 
         <!-- Pagination -->
         <div class="pagination">
             {% if page_obj.has_previous %}
-                <a href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}">&laquo; Primera</a>
-                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Anterior</a>
+                <a href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}" title="Primera página">&laquo; Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" title="Página anterior">← Anterior</a>
             {% endif %}
 
             <span class="current-page">
-                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                📄 Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Siguiente</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}">Última &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" title="Página siguiente">Siguiente →</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}" title="Última página">Última &raquo;</a>
             {% endif %}
         </div>
     {% else %}
-        <p class="text-center">No hay artículos publicados aún.</p>
+        <div class="text-center" style="padding: 3rem;">
+            <h3 style="color: #718096; margin-bottom: 1rem;">📭 No hay artículos publicados aún</h3>
+            <p style="color: #a0aec0;">Sé el primero en compartir una historia interesante con nuestra comunidad.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'article-create' %}" class="btn" style="margin-top: 1rem;">✍️ Crear el primer artículo</a>
+            {% endif %}
+        </div>
     {% endif %}
 </div>
 {% endblock %}

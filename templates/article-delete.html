@@ -2,15 +2,36 @@
 
 {% block title %}Eliminar Artículo - Newspaper Lecheria{% endblock %}
 
+{% block hero %}
+<section class="hero" style="padding: 2rem 0; background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);">
+    <div class="container">
+        <h1 style="font-size: 2.5rem; color: #742a2a;">⚠️ Eliminar Artículo</h1>
+        <p style="color: #742a2a;">Esta acción no se puede deshacer</p>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
-<div class="content">
-    <h2>Eliminar Artículo</h2>
-    <p>¿Estás seguro de que quieres eliminar el artículo "<strong>{{ article.title }}</strong>"?</p>
-    <p class="text-center mb-3">Esta acción no se puede deshacer.</p>
-    <form method="post">
+<div class="form-container" style="border: 2px solid #fed7d7; background: linear-gradient(135deg, #fef5e7 0%, #fdeaa7 50%, #fed7d7 100%);">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 style="color: #742a2a; margin-bottom: 1rem;">🗑️ Confirmar Eliminación</h2>
+        <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+            <h3 style="color: #2d3748; margin-bottom: 1rem;">"{{ article.title }}"</h3>
+            <p style="color: #718096; margin-bottom: 1rem;">
+                <strong>Autor:</strong> {{ article.author }}<br>
+                <strong>Publicado:</strong> {{ article.created_at|date:"d F Y" }}
+            </p>
+            <p style="color: #744210; font-weight: 600; margin-bottom: 2rem;">
+                ⚠️ ¿Estás seguro de que quieres eliminar este artículo?<br>
+                <small style="color: #a0aec0;">Esta acción no se puede deshacer.</small>
+            </p>
+        </div>
+    </div>
+
+    <form method="post" style="text-align: center;">
         {% csrf_token %}
-        <button type="submit" class="btn danger">Sí, eliminar</button>
-        <a href="{% url 'article-detail' article.pk %}" class="btn">No, volver</a>
+        <button type="submit" class="btn danger" style="margin-right: 1rem;">🗑️ Sí, eliminar definitivamente</button>
+        <a href="{% url 'article-detail' article.pk %}" class="btn" style="background: #718096;">👁️ No, volver al artículo</a>
     </form>
 </div>
 {% endblock %}
