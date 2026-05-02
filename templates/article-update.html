@@ -1,10 +1,22 @@
 {% extends '_base.html' %}
 
+{% block title %}Actualizar Artículo - Newspaper Lecheria{% endblock %}
+
 {% block content %}
+<div class="content">
     <h2>Actualizar Artículo</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Actualizar</button>
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Actualizar Artículo</button>
     </form>
+</div>
 {% endblock %}

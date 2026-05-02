@@ -1,10 +1,22 @@
 {% extends '_base.html' %}
 
+{% block title %}Crear Nuevo Artículo - Newspaper Lecheria{% endblock %}
+
 {% block content %}
-    <h2>Nuevo Artículo</h2>
+<div class="content">
+    <h2>Crear Nuevo Artículo</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Crear</button>
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Crear Artículo</button>
     </form>
+</div>
 {% endblock %}

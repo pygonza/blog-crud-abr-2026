@@ -1,28 +1,51 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newspaper</title>
+    <title>{% block title %}Newspaper Lecheria{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <a href="{% url 'article-list' %}"><h1>Newspaper Lecheria</h1></a>
-        <a href="{% url 'article-create' %}">Crear Articulo</a>
-        
-        {% if user.is_authenticated %}
-            <span>Bienvenido, {{ user.username }}</span>
-            <a href="{% url 'logout' %}">Cerrar Sesión</a>
-        
-        {% else %}
-        <a href="{% url 'login' %}">Iniciar Sesión</a>
-        {% endif %}
-
+        <div class="container">
+            <h1><a href="{% url 'article-list' %}">Newspaper Lecheria</a></h1>
+            <nav class="nav-links">
+                <a href="{% url 'article-list' %}">Inicio</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'article-create' %}">Crear Artículo</a>
+                    <span>Bienvenido, {{ user.username }}</span>
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Cerrar Sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar Sesión</a>
+                {% endif %}
+            </nav>
+        </div>
     </header>
-        {% block content %}
 
-        {% endblock %}
+    <main>
+        <div class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Newspaper Lecheria. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>

@@ -1,10 +1,23 @@
 {% extends '_base.html' %}
 
-{%block content %}
+{% block title %}Iniciar Sesión - Newspaper Lecheria{% endblock %}
+
+{% block content %}
+<div class="content">
     <h2>Iniciar Sesión</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Iniciar Sesión</button>
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Iniciar Sesión</button>
     </form>
+    <p class="mt-2">¿No tienes cuenta? <a href="{% url 'password_reset' %}">Recuperar contraseña</a></p>
+</div>
 {% endblock %}

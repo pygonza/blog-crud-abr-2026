@@ -1,10 +1,20 @@
 {% extends '_base.html' %}
 
+{% block title %}{{ article.title }} - Newspaper Lecheria{% endblock %}
+
 {% block content %}
-    <h2>{{ article.title }}</h2>
-    <p><strong>Autor:</strong> {{ article.author }}</p>
-    <p><small>Fecha de Publicación:</small> {{ article.created_at }}</p>
-    <p><strong>Contenido:</strong> {{ article.content }}</p>
-    <a href="{% url 'article-update' article.pk %}">Editar Artículo</a>
-    <a href="{% url 'article-delete' article.pk %}">Eliminar Artículo</a>
+<div class="content">
+    <article class="article-detail">
+        <h2>{{ article.title }}</h2>
+        <div class="article-author">Por {{ article.author }}</div>
+        <div class="article-date">Publicado el {{ article.created_at|date:"d F Y" }}</div>
+        <div class="article-content">{{ article.content|linebreaks }}</div>
+        {% if user.is_authenticated and user == article.author %}
+            <div class="article-actions">
+                <a href="{% url 'article-update' article.pk %}">Editar Artículo</a>
+                <a href="{% url 'article-delete' article.pk %}" class="danger">Eliminar Artículo</a>
+            </div>
+        {% endif %}
+    </article>
+</div>
 {% endblock %}
