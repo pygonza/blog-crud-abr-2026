@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (ListView, 
                                   DetailView, 
                                   CreateView,
@@ -8,7 +9,7 @@ from .models import Article
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 class ArticleListView(ListView):
